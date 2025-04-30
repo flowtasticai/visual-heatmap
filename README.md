@@ -171,6 +171,7 @@ instance.toBlob('image/jpeg', 0.8).then(blob => {
 });
 
 Try [Example with Download Options](https://nswamy14.github.io/visual-heatmap/demo/heatmap1.html)
+```
 
 ## ⭐️ Show Your Support
 
