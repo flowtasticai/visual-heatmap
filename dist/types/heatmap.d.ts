@@ -59,7 +59,7 @@ export declare class HeatmapRenderer {
    * @param translate - Accepts array [x, y]
    * @returns instance
    */
-    setTranslate(translate: Translate): HeatmapRenderer;
+    setTranslate(translate: Translate): this;
     /**
    * Set the zoom transformation on the Heatmap
    * @param zoom - Accepts float value
@@ -95,7 +95,7 @@ export declare class HeatmapRenderer {
    * @param config - Accepts Object with { url, height, width, x, and y} properties
    * @returns instance
    */
-    setBackgroundImage(config: BackgroundImageConfig): HeatmapRenderer | undefined;
+    setBackgroundImage(config: BackgroundImageConfig): this | undefined;
     /**
    * Clear heatmap
    */
@@ -126,4 +126,11 @@ export declare class HeatmapRenderer {
         x: number;
         y: number;
     };
+    /**
+     * Extract the rendered canvas as an image blob
+     * @param mimeType - The image format (e.g., 'image/png', 'image/jpeg'). Defaults to 'image/png'
+     * @param quality - A number between 0 and 1 indicating image quality for lossy formats. Defaults to 0.92
+     * @returns Promise that resolves with a Blob containing the image data
+     */
+    toBlob(mimeType?: string, quality?: number): Promise<Blob>;
 }

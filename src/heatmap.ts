@@ -343,7 +343,7 @@ export class HeatmapRenderer {
 				depth: false,
 				antialias: true,
 				alpha: true,
-				preserveDrawingBuffer: false,
+				preserveDrawingBuffer: false, // Set to false for better performance
 			}) as WebGL2RenderingContext;
 
 			this.ratio = getPixelRatio(ctx);
@@ -757,5 +757,56 @@ export class HeatmapRenderer {
 		posY = posY * halfHeight + halfHeight;
 
 		return { x: posX, y: posY };
+	}
+
+	/**
+	 * Extract the rendered canvas as an image blob
+	 * @param mimeType - The image format (e.g., 'image/png', 'image/jpeg'). Defaults to 'image/png'
+	 * @param quality - A number between 0 and 1 indicating image quality for lossy formats. Defaults to 0.92
+	 * @returns Promise that resolves with a Blob containing the image data
+	 */
+	toBlob(mimeType: string = 'image/png', quality: number = 0.92): Promise<Blob> {
+		return new Promise((resolve, reject) => {
+			try {
+				 // Store current context
+				const currentCtx = this.ctx;
+				
+				// Create new context with preserveDrawingBuffer enabled
+				const newCtx = this.layer.getContext('webgl2', {
+					premultipliedAlpha: false,
+					depth: false,
+					antialias: true,
+					alpha: true,
+					preserveDrawingBuffer: true
+				}) as WebGL2RenderingContext;
+
+				if (!newCtx) {
+					throw new Error('Failed to create WebGL2 context');
+				}
+
+				// Temporarily switch context and render
+				this.ctx = newCtx;
+				this.render();
+
+				// Get the blob
+				this.layer.toBlob(
+					(blob) => {
+						if (blob) {
+							resolve(blob);
+						} else {
+							reject(new Error('Failed to create blob from canvas'));
+						}
+						
+						// Restore original context
+						this.ctx = currentCtx;
+						this.render(); // Re-render with original context
+					},
+					mimeType,
+					quality
+				);
+			} catch (error) {
+				reject(error);
+			}
+		});
 	}
 }

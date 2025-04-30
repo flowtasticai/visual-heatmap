@@ -153,3 +153,23 @@ Api to rerender heatmep on parent container resizes.
 ### instance.clear()
 Api to clear canvas.
 
+### instance.toBlob(mimeType, quality)
+Api to export the current heatmap view as an image blob.
+
+**Parameters:**
+- `mimeType` (optional): The image format, either 'image/png' or 'image/jpeg'. Defaults to 'image/png'
+- `quality` (optional): A number between 0 and 1 indicating image quality for JPEG format. Defaults to 0.92
+
+```Javascript
+// Export as PNG (default)
+instance.toBlob().then(blob => {
+    // Use the blob - e.g., save it or send it
+});
+
+// Export as JPEG with 80% quality
+instance.toBlob('image/jpeg', 0.8).then(blob => {
+    // Use the JPEG blob
+});
+
+Try [Example with Download Options](https://nswamy14.github.io/visual-heatmap/demo/heatmap1.html)
+

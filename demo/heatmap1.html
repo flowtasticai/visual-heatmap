@@ -51,11 +51,33 @@ let instance = visualHeatmap('#canvas', {
         this.transalteY = 0;
         this.zoom = 1.0;
         this.rotationAngle = 0.0;
-        this.update = function() {
-        }
+        this.imageType = 'png';
+        this.imageQuality = 0.92;
+        this.downloadImage = function() {
+            instance.toBlob(this.imageType === 'png' ? 'image/png' : 'image/jpeg', this.imageQuality)
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `heatmap.${this.imageType}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                })
+                .catch(error => console.error('Failed to download image:', error));
+        };
     };
 
     var params = new Params();
+    
+    // Create a Download folder in GUI
+    var downloadFolder = gui.addFolder('Download Options');
+    downloadFolder.add(params, 'imageType', ['png', 'jpeg']).name('Format');
+    downloadFolder.add(params, 'imageQuality', 0.1, 1).step(0.1).name('Quality');
+    downloadFolder.add(params, 'downloadImage').name('Download Image');
+    
+    // Rest of the GUI controls
     gui.add( params, 'points', 1, 500000 ).onChange( function () {
         data = generateData(params.points);
         instance.renderData(data);
