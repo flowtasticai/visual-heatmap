@@ -68,7 +68,10 @@ export const GradShader = {
             float deno = max(u_max - u_min, 1e-6);  // Prevent division by zero
             
             if(r <= 1.0) {
-                float alpha = ((v_i - u_min) / deno) * u_intensity * (1.0 - sqrt(r));
+                // float alpha = ((v_i - u_min) / deno) * u_intensity * (1.0 - sqrt(r));
+                // Keep the alpha calculation but remove the circular falloff.
+                float alpha = ((v_i - u_min) / deno) * u_intensity;
+
                 alpha = clamp(alpha, 0.0, 1.0);  // Clamp alpha to valid range
                 fragColor = vec4(0, 0, 0, alpha);
             } else {

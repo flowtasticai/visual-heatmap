@@ -349,7 +349,7 @@ export class HeatmapRenderer {
 			this.ratio = getPixelRatio(ctx);
 			ctx.clearColor(0, 0, 0, 0);
 			ctx.enable(ctx.BLEND);
-			ctx.blendEquation(ctx.FUNC_ADD);
+			ctx.blendEquation(ctx.MAX) // Take maximum instead of adding
 			ctx.blendFunc(ctx.ONE, ctx.ONE_MINUS_SRC_ALPHA);
 			ctx.depthMask(true);
 			layer.setAttribute("height", (height * this.ratio).toString());
