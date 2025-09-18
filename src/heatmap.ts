@@ -199,8 +199,8 @@ function renderHeatGrad(
 	});
 
 	if (this.disableCircularFalloff) {
-    ctx.blendEquation(ctx.MAX);
-  }
+		ctx.blendEquation(ctx.MAX);
+	}
 
 	ctx.drawArrays(ctx.POINTS, 0, (exData.posVec || []).length / 2);
 }
@@ -601,13 +601,13 @@ export class HeatmapRenderer {
    * @param disableCircularFalloff - Boolean to disable circular falloff effect.
    * @returns instance
    */
-  setDisableCircularFalloff(disableCircularFalloff: boolean): HeatmapRenderer {
-    if (typeof disableCircularFalloff !== 'boolean') {
-      throw new Error('Invalid disableCircularFalloff: Expected Boolean')
-    }
-    this.disableCircularFalloff = disableCircularFalloff;
-    return this
-  }
+	setDisableCircularFalloff(disableCircularFalloff: boolean): HeatmapRenderer {
+		if (typeof disableCircularFalloff !== 'boolean') {
+			throw new Error('Invalid disableCircularFalloff: Expected Boolean');
+		}
+		this.disableCircularFalloff = disableCircularFalloff;
+		return this;
+	}
 
 	/**
    * Set the background image
